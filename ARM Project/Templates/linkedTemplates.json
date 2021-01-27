@@ -1,0 +1,86 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "webServerCount": {
+            "type": "int",
+            "defaultValue": 1
+        }
+    },
+    "functions": [],
+    "variables": {},
+    "resources": [
+        {
+            "type": "Microsoft.Resources/deployments",
+            "apiVersion": "2020-06-01",
+            "name": "webServer", //TODO: legg til concatinerte navn
+            "properties": {
+                "mode": "Incremental",
+                "templateLink": {
+                    "uri": "PlaceHolder",
+                    "contentVersion": "1.0.0.0"
+                },
+                "parametersLink":{ //TODO: Vurder om det er bedre å passe params inline
+                    "uri":"PlaceHolder",
+                    "contentVersion":"1.0.0.0"
+                }
+            },
+            "copy": {
+                "name": "[concat('webServer', copyIndex(1))]", //TODO: Improve this
+                "count": "[parameters('webServerCount')]"
+            }
+        },
+        {
+            "type": "Microsoft.Resources/deployments",
+            "apiVersion": "2020-06-01",
+            "name": "availabilitySet", //TODO: legg til concatinert navn
+            "dependsOn": [
+                "[resourceId('Microsoft.Resources/deployments', 'webServer')]"
+            ],
+            "properties": {
+                "mode": "Incremental",
+                "templateLink": {
+                    "uri": "PlaceHolder",
+                    "contentVersion": "1.0.0.0"
+                },
+                "parametersLink": {
+                    "uri": "PlaceHolder",
+                    "contentVersion": "1.0.0.0"
+                }
+            }
+        },
+        {
+            "type": "Microsoft.Resources/deployments",
+            "apiVersion": "2020-06-01",
+            "name": "dataBase", //TODO: Legg til concatinert navn
+            "properties": {
+                "mode": "Incremental",
+                "templateLink": {
+                    "uri": "PlaceHolder",
+                    "contentVersion": "1.0.0.0"
+                },
+                "parametersLink": {
+                    "uri": "PlaceHolder",
+                    "contentVersion": "1.0.0.0"
+                }
+            }
+        },
+        {
+            "type": "Microsoft.Resources/deployments",
+            "apiVersion": "2020-06-01",
+            "name": "orchestrator", //TODO: sjekk om navn funker, og concatiner.
+            "properties": {
+                "mode": "Incremental",
+                "templateLink": {
+                    "uri": "PlaceHolder",
+                    "contentVersion": "1.0.0.0"
+                },
+                "parametersLink": {
+                    "uri": "PlaceHolder",
+                    "contentVersion": "1.0.0.0"
+                }
+            }
+        }
+    ],
+    "outputs": {}
+}
