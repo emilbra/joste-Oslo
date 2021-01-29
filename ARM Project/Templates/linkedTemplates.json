@@ -9,6 +9,9 @@
     },
     "functions": [],
     "variables": {},
+    // Denne templaten benytter såkalte Linked templates. Istedet for å ha en skikkelig svær template så har vi en mindre template som linker til andre, mindre templates.
+    // Slik hever vi modularitet og gjennbruk av kode.
+    // De templatene vi lenker til kan brukes i mange andre templates lik denne
     "resources": [
         {
             "type": "Microsoft.Resources/deployments",

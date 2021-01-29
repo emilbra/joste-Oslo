@@ -1,11 +1,32 @@
 {
     "$schema": "https://schema.management.azure.com/schemas/2018-05-01/subscriptionDeploymentTemplate.json#",
     "contentVersion": "1.0.0.0",
-    "parameters": {},
+    "parameters": {
+        //Denne templaten får være selvstendig - viser en veldig basic opprettelse og utrulling
+        //Liten notat: Ved å bruke camelCase så blir targetLocation til Target Location i portalen! KULT!
+        "targetLocation": {
+            "type": "string",
+            "defaultValue": "North Europe",
+            "metadata": {
+                "Description": "az rgs are available everywhere"
+            }
+        },
+        //her er defaultvalue intensjonelt feil - skal vise at validation fanger det opp
+        "resource-GroupName": {
+            "type": "string",
+            "defaultValue": "test RG" //TODO: COncat and make unique
+        }
+    },
     "functions": [],
     "variables": {},
-    "resources": [],
+    "resources": [
+        {
+            "name": "[parameters('resource-GroupName')]",
+            "type": "Microsoft.Resources/resourceGroups",
+            "apiVersion": "2020-10-01",
+            "location": "[parameters('targetLocation')]",
+            "properties": {}            
+        }
+    ],
     "outputs": {}
 }
-
-//Dobbeltsjekk at arm!mg faktisk er rett scope for RG...
