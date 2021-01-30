@@ -21,11 +21,12 @@
                 "mode": "Incremental",
                 "templateLink": {
                     "uri": "PlaceHolder",
+                    //må man ha duplikate templates for å kunne benytte contentVersion?
                     "contentVersion": "1.0.0.0"
                 },
                 "parametersLink":{ //TODO: Vurder om det er bedre å passe params inline
                     "uri":"PlaceHolder",
-                    "contentVersion":"1.0.0.0"
+                    "contentVersion": "1.0.0.0"
                 }
             },
             "copy": {
@@ -72,6 +73,7 @@
             "type": "Microsoft.Resources/deployments",
             "apiVersion": "2020-06-01",
             "name": "orchestrator", //TODO: sjekk om navn funker, og concatiner.
+            //TODO: Legg til disk iden templaten.
             "properties": {
                 "mode": "Incremental",
                 "templateLink": {
