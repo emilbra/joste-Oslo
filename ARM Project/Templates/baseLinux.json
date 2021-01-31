@@ -1,9 +1,73 @@
 {
     "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
     "contentVersion": "1.0.0.0",
-    "parameters": {},
+    "parameters": {
+        "virtualMachineName": {
+            "type": "string",
+            "defaultValue": "Linux Machine"
+        },
+        "vmLocation": {
+            "type": "string",
+            "defaultValue": "North Europe"
+        },
+        "virtualMachineSize": {
+            "type": "string",
+            "defaultValue": "" //TODO
+        }
+    },
     "functions": [],
     "variables": {},
-    "resources": [],
+    "resources": [
+        {
+            "type": "Microsoft.Compute/virtualMachines",
+            "apiVersion": "2019-07-01",
+            //TODO: Vurder å benytt Variabler her
+            "name": "[parameters('virtualMachineName')]",
+            "location": "[parameters('vmLocation')]",
+            "dependsOn": [  /*NIC*/],
+            "properties": {
+                "hardwareProfile": {
+                    "vmSize": "[parameters('virtualMachineSize')]" //TODO
+                },
+                "osProfile": {
+                    "computerName": "[parameters('virtualMachineName')]",
+                    "adminUsername": "",
+                    "adminPassword": "",
+                    "linuxConfiguration": {
+                        "disablePasswordAuthentication": true,
+                        "ssh": {
+                            "publicKeys": [
+                                {
+                                   "path": "",
+                                   "keyData": "" 
+                                }
+                            ]
+                        }
+                    }
+                },
+                "storageProfile": {
+                    "imageReference": {
+                        "publisher": "",
+                        "offer": "",
+                        "id": "",
+                        "sku": "",
+                        "version": ""
+                    },
+                    "osDisk": {
+                        //her brukes fromImage, vi kunne ha mountet en allerede eksisterende VHD, eller så kan vi ta utgangspunkt fra et custom image
+                        "createOption": "FromImage"
+                    }
+                },
+                "networkProfile": {
+                    "networkInterfaces": [
+                        {
+                            "id": "" //TODO
+                        }
+                    ]
+                }
+            }
+
+        }
+    ],
     "outputs": {}
 }

@@ -1,0 +1,65 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "vmLocation": {
+            "type": "string",
+            "defaultValue": "North Europe"
+        },
+        //TODO: valider at virtualMachineName kommer til å passe riktig til denne templaten
+        "virtualMachineName": {
+            "type": "string"
+        },
+        "publicIPAdressName": {
+            "type": "string"
+        },
+        "vNetName": {
+            "type": "string"
+        },
+        "networkSecurityGroupName": {
+            "type": "string"
+        },
+        "subnetName": {
+            "type": "string"
+        }
+    },
+    "functions": [],
+    "variables": {
+        //TODO: sjekk at disse fungere som de skal.
+        "machineID": "[resourceId('Microsoft.Compute/virtualMachines', parameters('virtualMachineName'))]",
+        "publicIPadressID": "[resourceId('microsoft.network/publicIPAddress', parameters('publicIPadressName'))]",
+        "vNetID": "[resourceId('Microsoft.Network/VirtualNetworks', parameters('vNetName'))]",
+        "networkSecurityGroupID": "[resourceId('Microsoft.Network/networkSecurityGroups', parameters('networkSecurityGroupName'))]",
+        "subnetID": "[resourceId('Microsoft.Network/virtualNetworks/subnets', parameters('subnetName'))]"
+    },
+    "resources": [
+        {
+            "type": "Microsoft.Network/networkInterfaces",
+            "apiVersion": "2020-05-01",
+            "name": "[concat(variables('machineID'), '-NIC')]",
+            "location": "[parameters('vmLocation')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.Network/publicIPaddresses', variables('publicIPadressID'))]",
+                "[resourceId('Microsoft.Network/virtualNetworks', variables('vNetID'))]",
+                "[resourceId('Microsoft.Network/networkSecurityGroups', variables('networkSecurityGroupID'))]"
+            ],
+            "properties": {
+                "ipConfigurations": [
+                    {
+                        "name": "ipconfig1",
+                        "properties": {
+                            "privateIPAllocationMethod": "Dynamic",
+                            "publicIPAddress": {
+                                "id": "[resourceId('Microsoft.Network/publicIPaddresses', variables('publicIPadressID'))]"
+                            },
+                            "subnet": {
+                                "id": "[resourceId('Microsoft.Network/virtualNetworks/subnets', variables('vNetID'), variables('subnetID'))]"
+                            }
+                        }
+                    }
+                ]
+            }
+        }
+    ],
+    "outputs": {}
+}

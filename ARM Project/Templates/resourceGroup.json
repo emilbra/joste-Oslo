@@ -14,7 +14,7 @@
         //her er defaultvalue intensjonelt feil - skal vise at validation fanger det opp
         "resource-GroupName": {
             "type": "string",
-            "defaultValue": "test RG" //TODO: COncat and make unique
+            "defaultValue": "test RG"
         }
     },
     "functions": [],
