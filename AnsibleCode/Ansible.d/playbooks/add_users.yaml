@@ -1,0 +1,36 @@
+---
+- hosts: all
+  become: yes
+  user: azureuser
+  tasks:
+    - name: create groups
+      group:
+        name: "{{ item }}"
+        state: present
+      loop:
+        - webadmins
+        - halfadmins
+    - name: create Eirik user
+      user:
+        name: admin_eirik
+        comment: Eirik Opheim, Sopra Steria
+        shell: /bin/bash
+        groups: webadmins
+        append: yes
+        state: present
+    - name: create Nikolai user
+      user:
+        name: admin_thea
+        comment: Nikolai Fauskrud, Sopra Steria
+        shell: /bin/bash
+        groups: webadmins
+        append: yes
+        state: present
+    - name: create Emil user
+      user:
+        name: halfadmin_emil
+        comment: Emil Brasø, Sopra Steria
+        shell: /bin/sh
+        groups: halfadmins
+        append: yes
+        state: present

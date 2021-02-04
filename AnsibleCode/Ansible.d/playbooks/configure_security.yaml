@@ -1,0 +1,15 @@
+---
+- hosts: all
+  user: azureuser
+  become: yes
+  tasks:
+    - name: add firewall rules by service
+      firewalld:
+        zone: public
+        service: "{{ item }}"
+        permanent: yes
+        immediate: yes
+        state: enabled
+      loop:
+        - http
+        - https
