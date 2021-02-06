@@ -13,10 +13,24 @@
         "virtualMachineSize": {
             "type": "string",
             "defaultValue": "" //TODO
+        },
+        "networkInterfaceName": {
+            "type": "string"
+        },
+        "adminUsername": {
+            "type": "string" 
+        },
+        "pathToKey-Vault": {
+            "type": "string"
+        },
+        "osDiskType": {
+            "type": "string",
+            "defaultValue": "Premium SSD"
         }
     },
     "functions": [],
-    "variables": {},
+    "variables": {
+    },
     "resources": [
         {
             "type": "Microsoft.Compute/virtualMachines",
@@ -24,22 +38,20 @@
             //TODO: Vurder å benytt Variabler her
             "name": "[parameters('virtualMachineName')]",
             "location": "[parameters('vmLocation')]",
-            "dependsOn": [  /*NIC*/],
             "properties": {
                 "hardwareProfile": {
                     "vmSize": "[parameters('virtualMachineSize')]" //TODO
                 },
                 "osProfile": {
                     "computerName": "[parameters('virtualMachineName')]",
-                    "adminUsername": "",
-                    "adminPassword": "",
+                    "adminUsername": "[parameters('adminUsername')]",
                     "linuxConfiguration": {
                         "disablePasswordAuthentication": true,
                         "ssh": {
                             "publicKeys": [
                                 {
-                                   "path": "",
-                                   "keyData": "" 
+                                   "path": "[concat('/home/', parameters('adminUsername'), '/.ssh/authorized_keys')]",
+                                   "keyData": "[parameters('pathToKey-Vault')]" 
                                 }
                             ]
                         }
@@ -47,21 +59,23 @@
                 },
                 "storageProfile": {
                     "imageReference": {
-                        "publisher": "",
-                        "offer": "",
-                        "id": "",
-                        "sku": "",
-                        "version": ""
+                        "publisher": "OpenLogic",
+                        "offer": "CentOS",
+                        "sku": "8_2",
+                        "version": "latest"
                     },
                     "osDisk": {
-                        //her brukes fromImage, vi kunne ha mountet en allerede eksisterende VHD, eller så kan vi ta utgangspunkt fra et custom image
-                        "createOption": "FromImage"
+                        //her brukes fromImage, vi kunne ha mountet en allerede eksisterende VHD, eller så kan vi ta utgangspunkt i et custom image
+                        "createOption": "fromImage",
+                        "managedDisk": {
+                            "storageAccountType": "[parameters('osDiskType')]"
+                        }
                     }
                 },
                 "networkProfile": {
                     "networkInterfaces": [
                         {
-                            "id": "" //TODO
+                            "id": "[resourceId('Microsoft.Network/networkInterfaces', parameters('networkInterfaceName'))]"
                         }
                     ]
                 }
