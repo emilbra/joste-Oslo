@@ -6,9 +6,11 @@
             "type": "string",
             "defaultValue": "North Europe"
         },
-        //TODO: valider at virtualMachineName kommer til å passe riktig til denne templaten
         "virtualMachineName": {
-            "type": "string"
+            "type": "string",
+            "metadata": {
+                "description": "Navnet til ønsket VM. -NIC blir appended på slutten av navnet for å beskrive nettverkskortet"
+            }
         },
         "publicIPAdressName": {
             "type": "string"
@@ -23,9 +25,9 @@
             "type": "string"
         }
     },
+    //Stående alene oppretter ikke denne templaten faktisk noe kobling mot VM
     "functions": [],
     "variables": {
-        //TODO: sjekk at disse fungere som de skal.
         "machineID": "[resourceId('Microsoft.Compute/virtualMachines', parameters('virtualMachineName'))]",
         "publicIPadressID": "[resourceId('microsoft.network/publicIPAddress', parameters('publicIPadressName'))]",
         "vNetID": "[resourceId('Microsoft.Network/VirtualNetworks', parameters('vNetName'))]",
@@ -48,7 +50,7 @@
                     {
                         "name": "ipconfig1",
                         "properties": {
-                            "privateIPAllocationMethod": "Dynamic",
+                            "privateIPAllocationMethod": "Static",
                             "publicIPAddress": {
                                 "id": "[resourceId('Microsoft.Network/publicIPaddresses', variables('publicIPadressID'))]"
                             },
@@ -57,7 +59,10 @@
                             }
                         }
                     }
-                ]
+                ],
+                "networkSecurityGroup": {
+                    "id": "[variables('networkSecurityGroupID')]"
+                }
             }
         }
     ],

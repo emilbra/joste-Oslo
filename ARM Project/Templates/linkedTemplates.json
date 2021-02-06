@@ -18,6 +18,7 @@
             "apiVersion": "2020-06-01",
             "name": "webServer", //TODO: legg til concatinerte navn
             "properties": {
+                //incremental vil si at vi kan oppdatere objekter, dersom de eksisterer fra før av!
                 "mode": "Incremental",
                 "templateLink": {
                     "uri": "PlaceHolder",
