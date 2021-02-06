@@ -1,9 +1,53 @@
 {
     "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
     "contentVersion": "1.0.0.0",
-    "parameters": {},
+    "parameters": {
+        "location": {
+            "type": "string",
+            "defaultValue": "North Europe"
+        },
+        "adminName": {
+            "type": "string"
+        },
+        "adminPassword": {
+            "type": "securestring"
+        },
+        "databaseName": {
+            "type": "string"
+        },
+        "serverName": {
+            "type": "string"
+        }
+        
+    },
     "functions": [],
     "variables": {},
-    "resources": [],
+    "resources": [
+        {
+            "type": "Microsoft.Sql/servers",
+            "name": "[parameters('serverName')]"
+            "apiVersion": "2019-06-01-preview",
+            "location": "[parameters('location')]",
+            "properties": {
+                "administratorLogin": "[parameters('adminName')]",
+                "administratorLoginPassword": "[parameters('adminPassword')]",
+            },
+            "resources": [
+                {
+                    "type": "databases",
+                    "apiVersion": "2020-08-01-preview",
+                    "name": "[parameters('databaseName')]",
+                    "location": "[parameters('location')]",
+                    "sku": {
+                        "name": "standard",
+                        "tier": "standard"
+                    },
+                    "dependsOn": [
+                        "[resourceId('Microsoft.SQL/servers', concat(parameters('serverName')))]"
+                    ]
+                }
+            ]
+        }
+    ],
     "outputs": {}
 }
