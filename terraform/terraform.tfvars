@@ -1,3 +1,5 @@
+subscription_id = ""
+
 rg_name = "tf test deployment"
 
 nsg_security_rules = {
