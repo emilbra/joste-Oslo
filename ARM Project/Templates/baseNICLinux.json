@@ -29,7 +29,7 @@
         "publicIPadressID": "[resourceId('microsoft.network/publicIPAddress', parameters('publicIPadressName'))]",
         "vNetID": "[resourceId('Microsoft.Network/VirtualNetworks', parameters('vNetName'))]",
         "networkSecurityGroupID": "[resourceId('Microsoft.Network/networkSecurityGroups', parameters('networkSecurityGroupName'))]",
-        "subnetID": "[resourceId('Microsoft.Network/virtualNetworks/subnets',parameters('vNetName'), parameters('subnetName'))]"
+        "subnetID": "[resourceId('Microsoft.Network/virtualNetworks/subnets',parameters('vNetName') parameters('subnetName'))]"
     },
     "resources": [
         {
@@ -52,7 +52,7 @@
                                 "id": "[resourceId('Microsoft.Network/publicIPaddresses', variables('publicIPadressID'))]"
                             },
                             "subnet": {
-                                "id": "[resourceId('Microsoft.Network/virtualNetworks/subnets', variables('vNetID'), variables('subnetID'))]"
+                                "id": "[resourceId('Microsoft.Network/virtualNetworks/subnets', 'default')]"
                             }
                         }
                     }
