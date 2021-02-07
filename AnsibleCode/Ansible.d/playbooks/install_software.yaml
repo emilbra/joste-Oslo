@@ -8,8 +8,19 @@
         name: httpd
         state: present
 
+    - name: start httpd
+      ansible.builtin.service:
+        name: httpd
+        enabled: yes
+        state: started
+
     - name: install firewalld
       yum:
         name: firewalld
         state: present
 
+    - name: start firewalld
+      ansible.builtin.service:
+        name: firewalld
+        enabled: yes
+        state: started

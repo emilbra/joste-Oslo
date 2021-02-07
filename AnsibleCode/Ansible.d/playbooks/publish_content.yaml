@@ -6,7 +6,7 @@
     - name: Publish example.html to webservers
       copy:
         src: /home/azureuser/git/joste-Oslo/AnsibleCode/Ansible.d/files/example.html
-        dest: /var/www/html/example.html
+        dest: /var/www/html/index.html
         owner: azureuser
         group: webadmins
         mode: 0644

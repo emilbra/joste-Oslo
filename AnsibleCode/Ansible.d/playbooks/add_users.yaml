@@ -15,6 +15,7 @@
         name: admin_eirik
         comment: Eirik Opheim, Sopra Steria
         shell: /bin/bash
+        password: $6$NcD682yFIK9RgsLi$BoNKF9X0EYijUxhSOeuNhvGXHesdkmaHGDIFY5c65NMAe4ZBKeGoE8vOiJPtRP0jlGeiGJu8OOVZqX7rM82TW1 
         groups: webadmins
         append: yes
         state: present
@@ -22,6 +23,7 @@
       user:
         name: admin_thea
         comment: Nikolai Fauskrud, Sopra Steria
+        password: $6$NcD682yFIK9RgsLi$BoNKF9X0EYijUxhSOeuNhvGXHesdkmaHGDIFY5c65NMAe4ZBKeGoE8vOiJPtRP0jlGeiGJu8OOVZqX7rM82TW1 
         shell: /bin/bash
         groups: webadmins
         append: yes
@@ -30,7 +32,16 @@
       user:
         name: halfadmin_emil
         comment: Emil Brasø, Sopra Steria
+        password: $6$NcD682yFIK9RgsLi$BoNKF9X0EYijUxhSOeuNhvGXHesdkmaHGDIFY5c65NMAe4ZBKeGoE8vOiJPtRP0jlGeiGJu8OOVZqX7rM82TW1
         shell: /bin/sh
         groups: halfadmins
         append: yes
         state: present
+    - name: Expire passwords
+      user:
+        name: "{{ item }}"
+        expires: -1
+      loop:
+        - admin_eirik
+        - admin_thea
+        - halfadmin_emil
