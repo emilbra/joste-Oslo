@@ -2,9 +2,68 @@
     "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
     "contentVersion": "1.0.0.0",
     "parameters": {
-        "webServerCount": {
+        "linuxMachineCount": {
             "type": "int",
             "defaultValue": 1
+        },
+        "vmName": {
+            "type": "string",
+            "defaultValue": "labbMachine"
+        },
+        "location": {
+            "type": "string",
+            "defaultValue": "Nort Europe"
+        },
+        "vmSize": {
+            "type": "string",
+            "defaultValue": "Standard B2s"
+        },
+        "nicName": {
+            "type": "string",
+            "defaultValue": "labbMachineNIC"
+        },
+        "adminUsername": {
+            "type": "string",
+            "defaultValue": "jostein"
+        },
+        "adminPassword": {
+            "type": "securestring",
+            "defaultValue": "test"
+        },
+        "keyVault": {
+            "type": "string"
+        },
+        "osDiskType": {
+            "type": "string",
+            "defaultValue": "Premium SSD"
+        },
+        "publicIpAdressName": {
+            "type": "string",
+            "defaultValue": "LabbMachineIP"
+        },
+        "vNetName": {
+            "type": "string",
+            "defaultValue": "defaultLabbVnet"
+        },
+        "nsgName": {
+            "type": "string",
+            "defaultValue": "nsgNavn"
+        },
+        "subnetName": {
+            "type": "string",
+            "defaultValue": "theDefaultSubnet"
+        },
+        "projectName": {
+            "type": "string",
+            "defaultValue": "labbOppsett" 
+        },
+        "databaseName": {
+            "type": "string",
+            "defaultValue": "SQL Database"
+        },
+        "serverName": {
+            "type": "string",
+            "defaultValue": "SQL Server Name"
         }
     },
     "functions": [],
@@ -17,74 +76,142 @@
         {
             "type": "Microsoft.Resources/deployments",
             "apiVersion": "2020-06-01",
-            "name": "webServer", //TODO: legg til concatinerte navn
+            "name": "linuxMaskin",
             "properties": {
                 //incremental vil si at vi kan oppdatere objekter, dersom de eksisterer fra før av!
                 "mode": "Incremental",
                 "templateLink": {
-                    "uri": "PlaceHolder",
-                    //må man ha duplikate templates for å kunne benytte contentVersion?
+                    "uri": "https://raw.githubusercontent.com/emilbra/joste-Oslo/master/ARM%20Project/Templates/baseLinux.json",
                     "contentVersion": "1.0.0.0"
                 },
-                "parametersLink":{ //TODO: Vurder om det er bedre å passe params inline
-                    "uri":"PlaceHolder",
-                    "contentVersion": "1.0.0.0"
+                "parameter":{ 
+                    "virtualMachineName": {
+                        "value": "[parameters('vmName')]"
+                    },
+                    "vmLocation": {
+                        "value": "[parameters('location')]"
+                    },
+                    "virtualMachineSize": {
+                        "value": "[parameters('vmSize')]"
+                    },
+                    "networkInterfaceName": {
+                        "value": "[parameters('nicName')]"
+                    },
+                    "adminUsername": {
+                        "value": "[parameters('adminUsername')]"
+                    },
+                    "pathToKey-Vault": {
+                        "value": "[parameters('keyVault')]"
+                    },
+                    "osDiskType": {
+                        "value": "[parameters('osDiskType')]"
+                    }
                 }
-            },
-            "copy": {
-                "name": "[concat('webServer', copyIndex(1))]", //TODO: Improve this
-                "count": "[parameters('webServerCount')]"
             }
+        //    "copy": {
+         //       "name": "[concat('linuxMaskin', copyIndex(1))]",
+          //      "count": "[parameters('linuxMachineCount')]"
+         //   }
         },
         {
             "type": "Microsoft.Resources/deployments",
             "apiVersion": "2020-06-01",
-            "name": "availabilitySet", //TODO: legg til concatinert navn
+            "name": "nicForTest",
             "dependsOn": [
                 "[resourceId('Microsoft.Resources/deployments', 'webServer')]"
             ],
             "properties": {
                 "mode": "Incremental",
                 "templateLink": {
-                    "uri": "PlaceHolder",
+                    "uri": "https://raw.githubusercontent.com/emilbra/joste-Oslo/master/ARM Project/Templates/baseNICLinux.json",
                     "contentVersion": "1.0.0.0"
                 },
-                "parametersLink": {
-                    "uri": "PlaceHolder",
-                    "contentVersion": "1.0.0.0"
+                "parameters": {
+                    "virutalMachineName": {
+                        "value": "[parameters('vmName')]"
+                    },
+                    "publicIPAdressName": {
+                        "value": "[parameters('publicIPAdressName')]"
+                    },
+                    "vNetName": {
+                        "value": "[parameters('vNetName')]"
+                    },
+                    "networkSecurityGroupName": {
+                        "value": "[parameters('nsgName')]"
+                    },
+                    "subnetName": {
+                        "value": "[parameters('subnetName')]"
+                    }
                 }
             }
         },
         {
             "type": "Microsoft.Resources/deployments",
             "apiVersion": "2020-06-01",
-            "name": "dataBase", //TODO: Legg til concatinert navn
+            "name": "SQLdataBase", //TODO: Legg til concatinert navn
             "properties": {
                 "mode": "Incremental",
                 "templateLink": {
-                    "uri": "PlaceHolder",
+                    "uri": "https://raw.githubusercontent.com/emilbra/joste-Oslo/master/ARM%20Project/Templates/dataBase.json",
                     "contentVersion": "1.0.0.0"
                 },
-                "parametersLink": {
-                    "uri": "PlaceHolder",
+                "parameters": {
+                    "location": {
+                        "value": "[parameters('location')]"
+                    },
+                    "adminName": {
+                        "value": "[parameters('adminUserName')]"
+                    },
+                    "adminPassword": {
+                        "value": "[parameters('adminPassword')]"
+                    },
+                    "databaseName": {
+                        "value": "[parameters('databaseName')]"
+                    },
+                    "serverName": {
+                        "value": "[parameters('serverName')]"
+                    }
+                }
+            }
+        },
+          {
+            "type": "Microsoft.Resources/deployments",
+            "apiVersion": "2020-06-01",
+            "name": "vNet", //TODO: Legg til concatinert navn
+            "properties": {
+                "mode": "Incremental",
+                "templateLink": {
+                    "uri": "https://raw.githubusercontent.com/emilbra/joste-Oslo/master/ARM%20Project/Templates/baseVnet.json",
                     "contentVersion": "1.0.0.0"
+                },
+                "parameters": {
+                    "projectName": {
+                        "value": "[parameters('projectName')]"
+                    },
+                    "networkSecurityGroupName": {
+                        "value": "[parameters('nsgName')]"
+                    },
+                    "projectLocation": {
+                        "value": "[parameters('location')]"
+                    }
                 }
             }
         },
         {
             "type": "Microsoft.Resources/deployments",
             "apiVersion": "2020-06-01",
-            "name": "orchestrator", //TODO: sjekk om navn funker, og concatiner.
+            "name": "networkSecurityGroup", //TODO: sjekk om navn funker, og concatiner.
             //TODO: Legg til disk iden templaten.
             "properties": {
                 "mode": "Incremental",
                 "templateLink": {
-                    "uri": "PlaceHolder",
+                    "uri": "https://raw.githubusercontent.com/emilbra/joste-Oslo/master/ARM Project/Templates/baseNSG.json",
                     "contentVersion": "1.0.0.0"
                 },
-                "parametersLink": {
-                    "uri": "PlaceHolder",
-                    "contentVersion": "1.0.0.0"
+                "parameters": {
+                    "deploymentLocation": {
+                        "value": "[parameters('location')]"
+                    }
                 }
             }
         }

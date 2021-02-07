@@ -14,7 +14,7 @@
         //her er defaultvalue intensjonelt feil - skal vise at validation fanger det opp
         "resource-GroupName": {
             "type": "string",
-            "defaultValue": "test RG"
+            "defaultValue": "testRG"
         }
     },
     "functions": [],
