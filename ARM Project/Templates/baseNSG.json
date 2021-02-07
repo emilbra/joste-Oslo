@@ -11,14 +11,12 @@
             "defaultValue": "BasicLinux-NSG"
         }
     },
-    //DENNE NSG-en tillater SSH inn til VM.
     "functions": [],
     "variables": {},
     "resources": [
         {
             "type": "Microsoft.Network/networkSecurityGroups",
             "apiVersion": "2020-05-01",
-            //TODO paramateriser og fiks samspill med andre templates
             "name": "[parameters('nsgName')]",
             "location": "[parameters('deploymentLocation')]",
             "properties": {

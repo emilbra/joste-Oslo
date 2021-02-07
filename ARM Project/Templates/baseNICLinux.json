@@ -26,12 +26,8 @@
     //Stående alene oppretter ikke denne templaten faktisk noe kobling mot VM
     "functions": [],
     "variables": {
-        //"publicIPadressID": "[resourceId('microsoft.network/publicIPAddress', parameters('publicIPadressName'))]",
-        //"vNetID": "[resourceId('Microsoft.Network/VirtualNetworks', parameters('vNetName'))]",
         "networkSecurityGroupID": "[resourceId('Microsoft.Network/networkSecurityGroups', parameters('networkSecurityGroupName'))]",
         "subnetRef": "[resourceId('Microsoft.Network/virtualNetworks/subnets', parameters('vNetName'), parameters('subnetName'))]"
-        //"subnetRef": "[concat(variables('vNetID'),'/subnets/', parameters('subnetName'))]"
-        //"subnetRef": "[resourceId('Microsoft.Network/virtualNetworks/subnets', parameters('vnetName'), parameters('subnetName'))]"
     },
     "resources": [
         {
@@ -40,10 +36,7 @@
             "name": "[parameters('nicName')]",
             "location": "[parameters('vmLocation')]",
             "dependsOn": [
-                //"[resourceId('Microsoft.Network/publicIPaddresses', variables('publicIPadressID'))]",
                 "[resourceId('Microsoft.Network/publicIPAddresses/', parameters('publicIPAdressName'))]"
-                //"[resourceId('Microsoft.Network/virtualNetworks', parameters('vNetName'))]",
-                //"[resourceId('Microsoft.Network/networkSecurityGroups', parameters('networkSecurityGroupName'))]"
             ],
             "properties": {
                 "ipConfigurations": [

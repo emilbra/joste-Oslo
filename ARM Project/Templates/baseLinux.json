@@ -36,12 +36,11 @@
         {
             "type": "Microsoft.Compute/virtualMachines",
             "apiVersion": "2019-07-01",
-            //TODO: Vurder å benytt Variabler her
             "name": "[parameters('virtualMachineName')]",
             "location": "[parameters('vmLocation')]",
             "properties": {
                 "hardwareProfile": {
-                    "vmSize": "[parameters('virtualMachineSize')]" //TODO
+                    "vmSize": "[parameters('virtualMachineSize')]"
                 },
                 "osProfile": {
                     "computerName": "[parameters('virtualMachineName')]",

@@ -2,10 +2,6 @@
     "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
     "contentVersion": "1.0.0.0",
     "parameters": {
-        //"linuxMachineCount": {
-        //    "type": "int",
-        //    "defaultValue": 1
-        // },
         "vmName": {
             "type": "string",
             "defaultValue": "labbMachine"
@@ -20,7 +16,7 @@
         },
         "nicName": {
             "type": "string",
-            "defaultValue": "labbMachineNIC"
+            "defaultValue": "labbmachinenic"
         },
         "adminUsername": {
             "type": "string"
@@ -47,10 +43,6 @@
             "type": "string",
             "defaultValue": "nsgNavn"
         },
-        "projectName": {
-            "type": "string",
-            "defaultValue": "labbOppsett" 
-        },
         "databaseName": {
             "type": "string",
             "defaultValue": "SQLDatabase"
@@ -75,13 +67,12 @@
                 "[resourceId('Microsoft.Resources/deployments','nicForTest')]"
             ],
             "properties": {
-                //incremental vil si at vi kan oppdatere objekter, dersom de eksisterer fra før av!
                 "mode": "Incremental",
                 "templateLink": {
                     "uri": "https://raw.githubusercontent.com/emilbra/joste-Oslo/master/ARM%20Project/Templates/baseLinux.json",
                     "contentVersion": "1.0.0.0"
                 },
-                "parameter":{ 
+                "parameters":{ 
                     "virtualMachineName": {
                         "value": "[parameters('vmName')]"
                     },
@@ -105,10 +96,6 @@
                     }
                 }
             }
-        //    "copy": {
-        //       "name": "[concat('linuxMaskin', copyIndex(1))]",
-        //      "count": "[parameters('linuxMachineCount')]"
-        //   }
         },
         {
             "type": "Microsoft.Resources/deployments",
@@ -173,6 +160,9 @@
             "type": "Microsoft.Resources/deployments",
             "apiVersion": "2020-06-01",
             "name": "vNet",
+            "dependsOn": [
+                "[resourceId('Microsoft.Resources/deployments', 'networkSecurityGroup')]"
+            ],
             "properties": {
                 "mode": "Incremental",
                 "templateLink": {
@@ -180,14 +170,14 @@
                     "contentVersion": "1.0.0.0"
                 },
                 "parameters": {
-                    "projectName": {
-                        "value": "[parameters('projectName')]"
-                    },
                     "networkSecurityGroupName": {
                         "value": "[parameters('nsgName')]"
                     },
                     "projectLocation": {
                         "value": "[parameters('location')]"
+                    },
+                    "vNetName": {
+                        "value": "[parameters('vNetName')]"
                     }
                 }
             }
