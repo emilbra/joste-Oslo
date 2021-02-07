@@ -6,6 +6,9 @@
             "type": "string",
             "defaultValue": "North Europe"
         },
+        "nicName": {
+            "type": "string"
+        },
         "virtualMachineName": {
             "type": "string",
             "metadata": {
@@ -38,7 +41,7 @@
         {
             "type": "Microsoft.Network/networkInterfaces",
             "apiVersion": "2020-05-01",
-            "name": "[concat(variables('machineID'), '-NIC')]",
+            "name": "[parameters('nicName')]",
             "location": "[parameters('vmLocation')]",
             "dependsOn": [
                 "[resourceId('Microsoft.Network/publicIPaddresses', variables('publicIPadressID'))]",
