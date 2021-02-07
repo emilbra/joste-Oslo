@@ -4,7 +4,7 @@
     "parameters": {
         "virtualMachineName": {
             "type": "string",
-            "defaultValue": "Linux Machine"
+            "defaultValue": "LinuxBOX"
         },
         "vmLocation": {
             "type": "string",
@@ -12,7 +12,7 @@
         },
         "virtualMachineSize": {
             "type": "string",
-            "defaultValue": "" //TODO
+            "defaultValue": "Standard_B2s"
         },
         "networkInterfaceName": {
             "type": "string"

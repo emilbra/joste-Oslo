@@ -53,11 +53,11 @@
         },
         "databaseName": {
             "type": "string",
-            "defaultValue": "SQL Database"
+            "defaultValue": "SQLDatabase"
         },
         "serverName": {
             "type": "string",
-            "defaultValue": "SQL Server Name"
+            "defaultValue": "SQLServerName"
         }
     },
     "functions": [],
@@ -143,7 +143,7 @@
         {
             "type": "Microsoft.Resources/deployments",
             "apiVersion": "2020-06-01",
-            "name": "SQLdataBase", //TODO: Legg til concatinert navn
+            "name": "SQLdataBase",
             "properties": {
                 "mode": "Incremental",
                 "templateLink": {
@@ -172,7 +172,7 @@
           {
             "type": "Microsoft.Resources/deployments",
             "apiVersion": "2020-06-01",
-            "name": "vNet", //TODO: Legg til concatinert navn
+            "name": "vNet",
             "properties": {
                 "mode": "Incremental",
                 "templateLink": {
@@ -195,8 +195,7 @@
         {
             "type": "Microsoft.Resources/deployments",
             "apiVersion": "2020-06-01",
-            "name": "networkSecurityGroup", //TODO: sjekk om navn funker, og concatiner.
-            //TODO: Legg til disk iden templaten.
+            "name": "networkSecurityGroup",
             "properties": {
                 "mode": "Incremental",
                 "templateLink": {
@@ -206,6 +205,9 @@
                 "parameters": {
                     "deploymentLocation": {
                         "value": "[parameters('location')]"
+                    },
+                    "nsgName": {
+                        "value": "[parameters('nsgName')]"
                     }
                 }
             }

@@ -5,6 +5,10 @@
         "deploymentLocation": {
             "type": "string",
             "defaultValue": "North Europe"
+        },
+        "nsgName": {
+            "type": "string",
+            "defaultValue": "BasicLinux-NSG"
         }
     },
     //DENNE NSG-en tillater SSH inn til VM.
@@ -15,12 +19,12 @@
             "type": "Microsoft.Network/networkSecurityGroups",
             "apiVersion": "2020-05-01",
             //TODO paramateriser og fiks samspill med andre templates
-            "name": "allowSSH-NSG",
+            "name": "[parameters('nsgName')]",
             "location": "[parameters('deploymentLocation')]",
             "properties": {
                 "securityRules": [
                     {
-                        "name": "allowSSH",
+                        "name": "allow22",
                         "properties": {
                             "description": "Tillater SSH inn til VM-en",
                             "protocol": "TCP",
@@ -34,7 +38,7 @@
                         }
                     },
                     {
-                        "name": "allow HTTP on 80",
+                        "name": "allow80",
                         "properties": {
                             "description": "Tilatter trafikk til og fra webserver",
                             "protocol": "Tcp",
