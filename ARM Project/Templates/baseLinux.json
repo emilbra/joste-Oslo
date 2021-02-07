@@ -20,7 +20,7 @@
         "adminUsername": {
             "type": "string" 
         },
-        "pathToKey-Vault": {
+        "KeyVault": {
             "type": "string"
         },
         "osDiskType": {
@@ -51,7 +51,7 @@
                             "publicKeys": [
                                 {
                                    "path": "[concat('/home/', parameters('adminUsername'), '/.ssh/authorized_keys')]",
-                                   "keyData": "[parameters('pathToKey-Vault')]" 
+                                   "keyData": "[parameters('KeyVault')]" 
                                 }
                             ]
                         }
