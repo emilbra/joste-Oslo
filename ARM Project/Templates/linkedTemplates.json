@@ -78,8 +78,7 @@
             "apiVersion": "2020-06-01",
             "name": "linuxMaskin",
             "dependsOn": [
-                "[resourceId('Microsoft.Resources/deployments','nicForTest')]",
-                "[resourceId('Microsoft.Resources/deployments', 'networkSecurityGroup')]"
+                "[resourceId('Microsoft.Resources/deployments','nicForTest')]"
             ],
             "properties": {
                 //incremental vil si at vi kan oppdatere objekter, dersom de eksisterer fra før av!
@@ -104,7 +103,7 @@
                     "adminUsername": {
                         "value": "[parameters('adminUsername')]"
                     },
-                    "pathToKey-Vault": {
+                    "KeyVault": {
                         "value": "[parameters('keyVault')]"
                     },
                     "osDiskType": {
@@ -121,6 +120,10 @@
             "type": "Microsoft.Resources/deployments",
             "apiVersion": "2020-06-01",
             "name": "nicForTest",
+            "dependsOn": [
+                "[resourceId('Microsoft.Resources/deployments', 'vNet')]",
+                "[resourceId('Microsoft.Resources/deployments', 'networkSecurityGroup')]"
+            ],
             "properties": {
                 "mode": "Incremental",
                 "templateLink": {
@@ -128,7 +131,7 @@
                     "contentVersion": "1.0.0.0"
                 },
                 "parameters": {
-                    "virutalMachineName": {
+                    "virtualMachineName": {
                         "value": "[parameters('vmName')]"
                     },
                     "publicIPAdressName": {
@@ -142,6 +145,9 @@
                     },
                     "subnetName": {
                         "value": "[parameters('subnetName')]"
+                    },
+                    "nicName": {
+                        "value": "[parameters('nicName')]"
                     }
                 }
             }

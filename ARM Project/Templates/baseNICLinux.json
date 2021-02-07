@@ -9,12 +9,6 @@
         "nicName": {
             "type": "string"
         },
-        "virtualMachineName": {
-            "type": "string",
-            "metadata": {
-                "description": "Navnet til ønsket VM. -NIC blir appended på slutten av navnet for å beskrive nettverkskortet"
-            }
-        },
         "publicIPAdressName": {
             "type": "string"
         },
@@ -31,7 +25,7 @@
     //Stående alene oppretter ikke denne templaten faktisk noe kobling mot VM
     "functions": [],
     "variables": {
-        "machineID": "[resourceId('Microsoft.Compute/virtualMachines', parameters('virtualMachineName'))]",
+       // "machineID": "[resourceId('Microsoft.Compute/virtualMachines', parameters('virtualMachineName'))]",
         "publicIPadressID": "[resourceId('microsoft.network/publicIPAddress', parameters('publicIPadressName'))]",
         "vNetID": "[resourceId('Microsoft.Network/VirtualNetworks', parameters('vNetName'))]",
         "networkSecurityGroupID": "[resourceId('Microsoft.Network/networkSecurityGroups', parameters('networkSecurityGroupName'))]",
