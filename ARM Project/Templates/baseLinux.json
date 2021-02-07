@@ -15,7 +15,8 @@
             "defaultValue": "Standard_B2s"
         },
         "networkInterfaceName": {
-            "type": "string"
+            "type": "string",
+            "defaultValue": "labmachinenic"
         },
         "adminUsername": {
             "type": "string" 
@@ -30,7 +31,6 @@
     },
     "functions": [],
     "variables": {
-        "networkInterfaceName": "[parameters('networkInterfaceName')]"
     },
     "resources": [
         {
@@ -76,7 +76,7 @@
                 "networkProfile": {
                     "networkInterfaces": [
                         {
-                            "id": "[resourceId('Microsoft.Network/networkInterfaces', variables('networkInterfaceName'))]"
+                            "id": "[resourceId('Microsoft.Network/networkInterfaces', parameters('networkInterfaceName'))]"
                         }
                     ]
                 }
