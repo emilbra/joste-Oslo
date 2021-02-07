@@ -13,6 +13,13 @@
         "projectLocation": {
             "type": "string",
             "defaultValue": "North Europe"
+        },
+        "vNetName": {
+            "type": "string"
+        },
+        "subnetName": {
+            "type": "string",
+            "defaultValue": "default"
         }
     },
     "functions": [],
@@ -21,7 +28,7 @@
         {
             "type": "Microsoft.Network/virtualNetworks",
             "apiVersion": "2020-05-01",
-            "name": "[concat(parameters('projectName'), '-vnet')]",
+            "name": "[parameters('vNetName')]",
             "location": "[parameters('projectLocation')]",
             "properties": {
                 "addressSpace": {
@@ -31,7 +38,7 @@
                 },
                 "subnets": [
                     {
-                        "name": "default",
+                        "name": "[parameters('subnetName')]",
                         "properties": {
                             "addressPrefix": "10.0.0.0/24",
                             "networkSecurityGroup": {

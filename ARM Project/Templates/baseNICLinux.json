@@ -15,6 +15,10 @@
         "vNetName": {
             "type": "string"
         },
+        "subnetName": {
+            "type": "string",
+            "defaultValue": "default"
+        },
         "networkSecurityGroupName": {
             "type": "string"
         }
@@ -22,10 +26,10 @@
     //Stående alene oppretter ikke denne templaten faktisk noe kobling mot VM
     "functions": [],
     "variables": {
-       // "machineID": "[resourceId('Microsoft.Compute/virtualMachines', parameters('virtualMachineName'))]",
         "publicIPadressID": "[resourceId('microsoft.network/publicIPAddress', parameters('publicIPadressName'))]",
         "vNetID": "[resourceId('Microsoft.Network/VirtualNetworks', parameters('vNetName'))]",
-        "networkSecurityGroupID": "[resourceId('Microsoft.Network/networkSecurityGroups', parameters('networkSecurityGroupName'))]"
+        "networkSecurityGroupID": "[resourceId('Microsoft.Network/networkSecurityGroups', parameters('networkSecurityGroupName'))]",
+        "subnetRef": "[resourceId('Microsoft.Network/virtualNetworks/subnets', parameters('vnetName'), parameters('subnetName'))]"
     },
     "resources": [
         {
@@ -48,7 +52,7 @@
                                 "id": "[resourceId('Microsoft.Network/publicIPaddresses', variables('publicIPadressID'))]"
                             },
                             "subnet": {
-                                "id": "[concat(resourceId('Microsoft.Network/virtualNetworks', parameters('vNetName')), '/subnets/default')]"
+                                "id": "[variables('subnetRef')]"
                             }
                         }
                     }

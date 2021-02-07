@@ -20,12 +20,12 @@
         "adminUsername": {
             "type": "string" 
         },
-        "KeyVault": {
-            "type": "string"
+        "adminPublicKey": {
+            "type": "secureString"
         },
         "osDiskType": {
             "type": "string",
-            "defaultValue": "Premium SSD"
+            "defaultValue": "Premium_LRS"
         }
     },
     "functions": [],
@@ -52,7 +52,7 @@
                             "publicKeys": [
                                 {
                                    "path": "[concat('/home/', parameters('adminUsername'), '/.ssh/authorized_keys')]",
-                                   "keyData": "[parameters('KeyVault')]" 
+                                   "keyData": "[parameters('adminPublicKey')]" 
                                 }
                             ]
                         }

@@ -12,30 +12,28 @@
         },
         "location": {
             "type": "string",
-            "defaultValue": "Nort Europe"
+            "defaultValue": "North Europe"
         },
         "vmSize": {
             "type": "string",
-            "defaultValue": "Standard B2s"
+            "defaultValue": "Standard_B2s"
         },
         "nicName": {
             "type": "string",
             "defaultValue": "labbMachineNIC"
         },
         "adminUsername": {
-            "type": "string",
-            "defaultValue": "jostein"
+            "type": "string"
         },
         "adminPassword": {
-            "type": "securestring",
-            "defaultValue": "test"
+            "type": "securestring"
         },
-        "keyVault": {
+        "adminPublicKey": {
             "type": "string"
         },
         "osDiskType": {
             "type": "string",
-            "defaultValue": "Premium SSD"
+            "defaultValue": "Premium_LRS"
         },
         "publicIpAdressName": {
             "type": "string",
@@ -48,10 +46,6 @@
         "nsgName": {
             "type": "string",
             "defaultValue": "nsgNavn"
-        },
-        "subnetName": {
-            "type": "string",
-            "defaultValue": "theDefaultSubnet"
         },
         "projectName": {
             "type": "string",
@@ -103,8 +97,8 @@
                     "adminUsername": {
                         "value": "[parameters('adminUsername')]"
                     },
-                    "KeyVault": {
-                        "value": "[parameters('keyVault')]"
+                    "adminPublicKey": {
+                        "value": "[parameters('adminPublicKey')]"
                     },
                     "osDiskType": {
                         "value": "[parameters('osDiskType')]"
@@ -112,9 +106,9 @@
                 }
             }
         //    "copy": {
-         //       "name": "[concat('linuxMaskin', copyIndex(1))]",
-          //      "count": "[parameters('linuxMachineCount')]"
-         //   }
+        //       "name": "[concat('linuxMaskin', copyIndex(1))]",
+        //      "count": "[parameters('linuxMachineCount')]"
+        //   }
         },
         {
             "type": "Microsoft.Resources/deployments",
@@ -131,9 +125,6 @@
                     "contentVersion": "1.0.0.0"
                 },
                 "parameters": {
-                    "virtualMachineName": {
-                        "value": "[parameters('vmName')]"
-                    },
                     "publicIPAdressName": {
                         "value": "[parameters('publicIPAdressName')]"
                     },
@@ -142,9 +133,6 @@
                     },
                     "networkSecurityGroupName": {
                         "value": "[parameters('nsgName')]"
-                    },
-                    "subnetName": {
-                        "value": "[parameters('subnetName')]"
                     },
                     "nicName": {
                         "value": "[parameters('nicName')]"
