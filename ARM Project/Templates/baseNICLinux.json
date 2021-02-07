@@ -52,7 +52,7 @@
                                 "id": "[resourceId('Microsoft.Network/publicIPaddresses', variables('publicIPadressID'))]"
                             },
                             "subnet": {
-                                "id": "[resourceId('Microsoft.Network/virtualNetworks/subnets', 'default')]"
+                                "id": "[concat(resourceId('Microsoft.Network/virtualNetworks', parameters('vNetName')), '/subnets/default')]"
                             }
                         }
                     }
