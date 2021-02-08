@@ -1,2 +1,2 @@
 [webservers]
-rhelSlave
+rhelSlave ansible_host=10.0.0.6
