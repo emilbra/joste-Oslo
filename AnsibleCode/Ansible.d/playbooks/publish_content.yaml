@@ -1,6 +1,6 @@
 ---
 - hosts: all
-  user: azureuser
+  user: emil
   become: yes
   tasks: 
     - name: Publish example.html to webservers

@@ -1,6 +1,6 @@
 ---
 - hosts: all
-  user: azureuser
+  user: emil
   become: yes
   tasks:
     - name: add firewall rules by service
