@@ -10,7 +10,7 @@ resource "azurerm_network_interface" "main" {
 
   ip_configuration {
     name                          = "tf-test-config"
-    subnet_id                     = azurerm_subnet.internal.id
+    subnet_id                     = azurerm_subnet.internal.id # module.network.subnet_id
     private_ip_address_allocation = "Dynamic"
   }
 }
