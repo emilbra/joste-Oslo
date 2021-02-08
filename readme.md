@@ -12,7 +12,3 @@ Dette repoet er brukt under kurset "Introduksjon til IaC" i Regi av Sopra Steria
   - webServer.json
 
 - Ansible
-
-## Lenker for videre læring
-
-- Microsoft
